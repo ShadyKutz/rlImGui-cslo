@@ -16,8 +16,8 @@ using System.Collections.Generic;
 using System.Numerics;
 using System.Runtime.InteropServices;
 
-using Raylib_cs;
 using ImGuiNET;
+using Raylib_CsLo;
 
 namespace rlImGui_cs
 {
@@ -27,7 +27,7 @@ namespace rlImGui_cs
 
         private static ImGuiMouseCursor CurrentMouseCursor = ImGuiMouseCursor.COUNT;
         private static Dictionary<ImGuiMouseCursor, MouseCursor> MouseCursorMap = new Dictionary<ImGuiMouseCursor, MouseCursor>();
-        private static Texture2D FontTexture;
+        private static Texture FontTexture;
 
         static Dictionary<KeyboardKey, ImGuiKey> RaylibKeyMap = new Dictionary<KeyboardKey, ImGuiKey>();
 
@@ -38,10 +38,10 @@ namespace rlImGui_cs
         internal static bool LastAltPressed = false;
         internal static bool LastSuperPressed = false;
 
-        internal static bool rlImGuiIsControlDown() { return Raylib.IsKeyDown(KeyboardKey.RightControl) || Raylib.IsKeyDown(KeyboardKey.LeftControl); }
-        internal static bool rlImGuiIsShiftDown() { return Raylib.IsKeyDown(KeyboardKey.RightShift) || Raylib.IsKeyDown(KeyboardKey.LeftShift); }
-        internal static bool rlImGuiIsAltDown() { return Raylib.IsKeyDown(KeyboardKey.RightAlt) || Raylib.IsKeyDown(KeyboardKey.LeftAlt); }
-        internal static bool rlImGuiIsSuperDown() { return Raylib.IsKeyDown(KeyboardKey.RightSuper) || Raylib.IsKeyDown(KeyboardKey.LeftSuper); }
+        internal static bool rlImGuiIsControlDown() { return Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT_CONTROL) || Raylib.IsKeyDown(KeyboardKey.KEY_LEFT_CONTROL); }
+        internal static bool rlImGuiIsShiftDown() { return Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT_SHIFT) || Raylib.IsKeyDown(KeyboardKey.KEY_LEFT_SHIFT); }
+        internal static bool rlImGuiIsAltDown() { return Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT_ALT) || Raylib.IsKeyDown(KeyboardKey.KEY_LEFT_ALT); }
+        internal static bool rlImGuiIsSuperDown() { return Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT_SUPER) || Raylib.IsKeyDown(KeyboardKey.KEY_LEFT_SUPER); }
 
         public delegate void SetupUserFontsCallback(ImGuiIOPtr imGuiIo);
 
@@ -84,7 +84,7 @@ namespace rlImGui_cs
             LastAltPressed = false;
             LastSuperPressed = false;
 
-            FontTexture.Id = 0;
+            FontTexture.id = 0;
 
             SetupKeymap();
 
@@ -96,126 +96,127 @@ namespace rlImGui_cs
             if (RaylibKeyMap.Count > 0)
                 return;
 
+            // TODO
             // build up a map of raylib keys to ImGuiKeys
-            RaylibKeyMap[KeyboardKey.Apostrophe] = ImGuiKey.Apostrophe;
-            RaylibKeyMap[KeyboardKey.Comma] = ImGuiKey.Comma;
-            RaylibKeyMap[KeyboardKey.Minus] = ImGuiKey.Minus;
-            RaylibKeyMap[KeyboardKey.Period] = ImGuiKey.Period;
-            RaylibKeyMap[KeyboardKey.Slash] = ImGuiKey.Slash;
-            RaylibKeyMap[KeyboardKey.Zero] = ImGuiKey._0;
-            RaylibKeyMap[KeyboardKey.One] = ImGuiKey._1;
-            RaylibKeyMap[KeyboardKey.Two] = ImGuiKey._2;
-            RaylibKeyMap[KeyboardKey.Three] = ImGuiKey._3;
-            RaylibKeyMap[KeyboardKey.Four] = ImGuiKey._4;
-            RaylibKeyMap[KeyboardKey.Five] = ImGuiKey._5;
-            RaylibKeyMap[KeyboardKey.Six] = ImGuiKey._6;
-            RaylibKeyMap[KeyboardKey.Seven] = ImGuiKey._7;
-            RaylibKeyMap[KeyboardKey.Eight] = ImGuiKey._8;
-            RaylibKeyMap[KeyboardKey.Nine] = ImGuiKey._9;
-            RaylibKeyMap[KeyboardKey.Semicolon] = ImGuiKey.Semicolon;
-            RaylibKeyMap[KeyboardKey.Equal] = ImGuiKey.Equal;
-            RaylibKeyMap[KeyboardKey.A] = ImGuiKey.A;
-            RaylibKeyMap[KeyboardKey.B] = ImGuiKey.B;
-            RaylibKeyMap[KeyboardKey.C] = ImGuiKey.C;
-            RaylibKeyMap[KeyboardKey.D] = ImGuiKey.D;
-            RaylibKeyMap[KeyboardKey.E] = ImGuiKey.E;
-            RaylibKeyMap[KeyboardKey.F] = ImGuiKey.F;
-            RaylibKeyMap[KeyboardKey.G] = ImGuiKey.G;
-            RaylibKeyMap[KeyboardKey.H] = ImGuiKey.H;
-            RaylibKeyMap[KeyboardKey.I] = ImGuiKey.I;
-            RaylibKeyMap[KeyboardKey.J] = ImGuiKey.J;
-            RaylibKeyMap[KeyboardKey.K] = ImGuiKey.K;
-            RaylibKeyMap[KeyboardKey.L] = ImGuiKey.L;
-            RaylibKeyMap[KeyboardKey.M] = ImGuiKey.M;
-            RaylibKeyMap[KeyboardKey.N] = ImGuiKey.N;
-            RaylibKeyMap[KeyboardKey.O] = ImGuiKey.O;
-            RaylibKeyMap[KeyboardKey.P] = ImGuiKey.P;
-            RaylibKeyMap[KeyboardKey.Q] = ImGuiKey.Q;
-            RaylibKeyMap[KeyboardKey.R] = ImGuiKey.R;
-            RaylibKeyMap[KeyboardKey.S] = ImGuiKey.S;
-            RaylibKeyMap[KeyboardKey.T] = ImGuiKey.T;
-            RaylibKeyMap[KeyboardKey.U] = ImGuiKey.U;
-            RaylibKeyMap[KeyboardKey.V] = ImGuiKey.V;
-            RaylibKeyMap[KeyboardKey.W] = ImGuiKey.W;
-            RaylibKeyMap[KeyboardKey.X] = ImGuiKey.X;
-            RaylibKeyMap[KeyboardKey.Y] = ImGuiKey.Y;
-            RaylibKeyMap[KeyboardKey.Z] = ImGuiKey.Z;
-            RaylibKeyMap[KeyboardKey.Space] = ImGuiKey.Space;
-            RaylibKeyMap[KeyboardKey.Escape] = ImGuiKey.Escape;
-            RaylibKeyMap[KeyboardKey.Enter] = ImGuiKey.Enter;
-            RaylibKeyMap[KeyboardKey.Tab] = ImGuiKey.Tab;
-            RaylibKeyMap[KeyboardKey.Backspace] = ImGuiKey.Backspace;
-            RaylibKeyMap[KeyboardKey.Insert] = ImGuiKey.Insert;
-            RaylibKeyMap[KeyboardKey.Delete] = ImGuiKey.Delete;
-            RaylibKeyMap[KeyboardKey.Right] = ImGuiKey.RightArrow;
-            RaylibKeyMap[KeyboardKey.Left] = ImGuiKey.LeftArrow;
-            RaylibKeyMap[KeyboardKey.Down] = ImGuiKey.DownArrow;
-            RaylibKeyMap[KeyboardKey.Up] = ImGuiKey.UpArrow;
-            RaylibKeyMap[KeyboardKey.PageUp] = ImGuiKey.PageUp;
-            RaylibKeyMap[KeyboardKey.PageDown] = ImGuiKey.PageDown;
-            RaylibKeyMap[KeyboardKey.Home] = ImGuiKey.Home;
-            RaylibKeyMap[KeyboardKey.End] = ImGuiKey.End;
-            RaylibKeyMap[KeyboardKey.CapsLock] = ImGuiKey.CapsLock;
-            RaylibKeyMap[KeyboardKey.ScrollLock] = ImGuiKey.ScrollLock;
-            RaylibKeyMap[KeyboardKey.NumLock] = ImGuiKey.NumLock;
-            RaylibKeyMap[KeyboardKey.PrintScreen] = ImGuiKey.PrintScreen;
-            RaylibKeyMap[KeyboardKey.Pause] = ImGuiKey.Pause;
-            RaylibKeyMap[KeyboardKey.F1] = ImGuiKey.F1;
-            RaylibKeyMap[KeyboardKey.F2] = ImGuiKey.F2;
-            RaylibKeyMap[KeyboardKey.F3] = ImGuiKey.F3;
-            RaylibKeyMap[KeyboardKey.F4] = ImGuiKey.F4;
-            RaylibKeyMap[KeyboardKey.F5] = ImGuiKey.F5;
-            RaylibKeyMap[KeyboardKey.F6] = ImGuiKey.F6;
-            RaylibKeyMap[KeyboardKey.F7] = ImGuiKey.F7;
-            RaylibKeyMap[KeyboardKey.F8] = ImGuiKey.F8;
-            RaylibKeyMap[KeyboardKey.F9] = ImGuiKey.F9;
-            RaylibKeyMap[KeyboardKey.F10] = ImGuiKey.F10;
-            RaylibKeyMap[KeyboardKey.F11] = ImGuiKey.F11;
-            RaylibKeyMap[KeyboardKey.F12] = ImGuiKey.F12;
-            RaylibKeyMap[KeyboardKey.LeftShift] = ImGuiKey.LeftShift;
-            RaylibKeyMap[KeyboardKey.LeftControl] = ImGuiKey.LeftCtrl;
-            RaylibKeyMap[KeyboardKey.LeftAlt] = ImGuiKey.LeftAlt;
-            RaylibKeyMap[KeyboardKey.LeftSuper] = ImGuiKey.LeftSuper;
-            RaylibKeyMap[KeyboardKey.RightShift] = ImGuiKey.RightShift;
-            RaylibKeyMap[KeyboardKey.RightControl] = ImGuiKey.RightCtrl;
-            RaylibKeyMap[KeyboardKey.RightAlt] = ImGuiKey.RightAlt;
-            RaylibKeyMap[KeyboardKey.RightSuper] = ImGuiKey.RightSuper;
-            RaylibKeyMap[KeyboardKey.KeyboardMenu] = ImGuiKey.Menu;
-            RaylibKeyMap[KeyboardKey.LeftBracket] = ImGuiKey.LeftBracket;
-            RaylibKeyMap[KeyboardKey.Backslash] = ImGuiKey.Backslash;
-            RaylibKeyMap[KeyboardKey.RightBracket] = ImGuiKey.RightBracket;
-            RaylibKeyMap[KeyboardKey.Grave] = ImGuiKey.GraveAccent;
-            RaylibKeyMap[KeyboardKey.Kp0] = ImGuiKey.Keypad0;
-            RaylibKeyMap[KeyboardKey.Kp1] = ImGuiKey.Keypad1;
-            RaylibKeyMap[KeyboardKey.Kp2] = ImGuiKey.Keypad2;
-            RaylibKeyMap[KeyboardKey.Kp3] = ImGuiKey.Keypad3;
-            RaylibKeyMap[KeyboardKey.Kp4] = ImGuiKey.Keypad4;
-            RaylibKeyMap[KeyboardKey.Kp5] = ImGuiKey.Keypad5;
-            RaylibKeyMap[KeyboardKey.Kp6] = ImGuiKey.Keypad6;
-            RaylibKeyMap[KeyboardKey.Kp7] = ImGuiKey.Keypad7;
-            RaylibKeyMap[KeyboardKey.Kp8] = ImGuiKey.Keypad8;
-            RaylibKeyMap[KeyboardKey.Kp9] = ImGuiKey.Keypad9;
-            RaylibKeyMap[KeyboardKey.KpDecimal] = ImGuiKey.KeypadDecimal;
-            RaylibKeyMap[KeyboardKey.KpDivide] = ImGuiKey.KeypadDivide;
-            RaylibKeyMap[KeyboardKey.KpMultiply] = ImGuiKey.KeypadMultiply;
-            RaylibKeyMap[KeyboardKey.KpSubtract] = ImGuiKey.KeypadSubtract;
-            RaylibKeyMap[KeyboardKey.KpAdd] = ImGuiKey.KeypadAdd;
-            RaylibKeyMap[KeyboardKey.KpEnter] = ImGuiKey.KeypadEnter;
-            RaylibKeyMap[KeyboardKey.KpEqual] = ImGuiKey.KeypadEqual;
+            // RaylibKeyMap[KeyboardKey.Apostrophe] = ImGuiKey.Apostrophe;
+            // RaylibKeyMap[KeyboardKey.Comma] = ImGuiKey.Comma;
+            // RaylibKeyMap[KeyboardKey.Minus] = ImGuiKey.Minus;
+            // RaylibKeyMap[KeyboardKey.Period] = ImGuiKey.Period;
+            // RaylibKeyMap[KeyboardKey.Slash] = ImGuiKey.Slash;
+            // RaylibKeyMap[KeyboardKey.Zero] = ImGuiKey._0;
+            // RaylibKeyMap[KeyboardKey.One] = ImGuiKey._1;
+            // RaylibKeyMap[KeyboardKey.Two] = ImGuiKey._2;
+            // RaylibKeyMap[KeyboardKey.Three] = ImGuiKey._3;
+            // RaylibKeyMap[KeyboardKey.Four] = ImGuiKey._4;
+            // RaylibKeyMap[KeyboardKey.Five] = ImGuiKey._5;
+            // RaylibKeyMap[KeyboardKey.Six] = ImGuiKey._6;
+            // RaylibKeyMap[KeyboardKey.Seven] = ImGuiKey._7;
+            // RaylibKeyMap[KeyboardKey.Eight] = ImGuiKey._8;
+            // RaylibKeyMap[KeyboardKey.Nine] = ImGuiKey._9;
+            // RaylibKeyMap[KeyboardKey.Semicolon] = ImGuiKey.Semicolon;
+            // RaylibKeyMap[KeyboardKey.Equal] = ImGuiKey.Equal;
+            // RaylibKeyMap[KeyboardKey.A] = ImGuiKey.A;
+            // RaylibKeyMap[KeyboardKey.B] = ImGuiKey.B;
+            // RaylibKeyMap[KeyboardKey.C] = ImGuiKey.C;
+            // RaylibKeyMap[KeyboardKey.D] = ImGuiKey.D;
+            // RaylibKeyMap[KeyboardKey.E] = ImGuiKey.E;
+            // RaylibKeyMap[KeyboardKey.F] = ImGuiKey.F;
+            // RaylibKeyMap[KeyboardKey.G] = ImGuiKey.G;
+            // RaylibKeyMap[KeyboardKey.H] = ImGuiKey.H;
+            // RaylibKeyMap[KeyboardKey.I] = ImGuiKey.I;
+            // RaylibKeyMap[KeyboardKey.J] = ImGuiKey.J;
+            // RaylibKeyMap[KeyboardKey.K] = ImGuiKey.K;
+            // RaylibKeyMap[KeyboardKey.L] = ImGuiKey.L;
+            // RaylibKeyMap[KeyboardKey.M] = ImGuiKey.M;
+            // RaylibKeyMap[KeyboardKey.N] = ImGuiKey.N;
+            // RaylibKeyMap[KeyboardKey.O] = ImGuiKey.O;
+            // RaylibKeyMap[KeyboardKey.P] = ImGuiKey.P;
+            // RaylibKeyMap[KeyboardKey.Q] = ImGuiKey.Q;
+            // RaylibKeyMap[KeyboardKey.R] = ImGuiKey.R;
+            // RaylibKeyMap[KeyboardKey.S] = ImGuiKey.S;
+            // RaylibKeyMap[KeyboardKey.T] = ImGuiKey.T;
+            // RaylibKeyMap[KeyboardKey.U] = ImGuiKey.U;
+            // RaylibKeyMap[KeyboardKey.V] = ImGuiKey.V;
+            // RaylibKeyMap[KeyboardKey.W] = ImGuiKey.W;
+            // RaylibKeyMap[KeyboardKey.X] = ImGuiKey.X;
+            // RaylibKeyMap[KeyboardKey.Y] = ImGuiKey.Y;
+            // RaylibKeyMap[KeyboardKey.Z] = ImGuiKey.Z;
+            // RaylibKeyMap[KeyboardKey.Space] = ImGuiKey.Space;
+            // RaylibKeyMap[KeyboardKey.Escape] = ImGuiKey.Escape;
+            // RaylibKeyMap[KeyboardKey.Enter] = ImGuiKey.Enter;
+            // RaylibKeyMap[KeyboardKey.Tab] = ImGuiKey.Tab;
+            // RaylibKeyMap[KeyboardKey.Backspace] = ImGuiKey.Backspace;
+            // RaylibKeyMap[KeyboardKey.Insert] = ImGuiKey.Insert;
+            // RaylibKeyMap[KeyboardKey.Delete] = ImGuiKey.Delete;
+            // RaylibKeyMap[KeyboardKey.Right] = ImGuiKey.RightArrow;
+            // RaylibKeyMap[KeyboardKey.Left] = ImGuiKey.LeftArrow;
+            // RaylibKeyMap[KeyboardKey.Down] = ImGuiKey.DownArrow;
+            // RaylibKeyMap[KeyboardKey.Up] = ImGuiKey.UpArrow;
+            // RaylibKeyMap[KeyboardKey.PageUp] = ImGuiKey.PageUp;
+            // RaylibKeyMap[KeyboardKey.PageDown] = ImGuiKey.PageDown;
+            // RaylibKeyMap[KeyboardKey.Home] = ImGuiKey.Home;
+            // RaylibKeyMap[KeyboardKey.End] = ImGuiKey.End;
+            // RaylibKeyMap[KeyboardKey.CapsLock] = ImGuiKey.CapsLock;
+            // RaylibKeyMap[KeyboardKey.ScrollLock] = ImGuiKey.ScrollLock;
+            // RaylibKeyMap[KeyboardKey.NumLock] = ImGuiKey.NumLock;
+            // RaylibKeyMap[KeyboardKey.PrintScreen] = ImGuiKey.PrintScreen;
+            // RaylibKeyMap[KeyboardKey.Pause] = ImGuiKey.Pause;
+            // RaylibKeyMap[KeyboardKey.F1] = ImGuiKey.F1;
+            // RaylibKeyMap[KeyboardKey.F2] = ImGuiKey.F2;
+            // RaylibKeyMap[KeyboardKey.F3] = ImGuiKey.F3;
+            // RaylibKeyMap[KeyboardKey.F4] = ImGuiKey.F4;
+            // RaylibKeyMap[KeyboardKey.F5] = ImGuiKey.F5;
+            // RaylibKeyMap[KeyboardKey.F6] = ImGuiKey.F6;
+            // RaylibKeyMap[KeyboardKey.F7] = ImGuiKey.F7;
+            // RaylibKeyMap[KeyboardKey.F8] = ImGuiKey.F8;
+            // RaylibKeyMap[KeyboardKey.F9] = ImGuiKey.F9;
+            // RaylibKeyMap[KeyboardKey.F10] = ImGuiKey.F10;
+            // RaylibKeyMap[KeyboardKey.F11] = ImGuiKey.F11;
+            // RaylibKeyMap[KeyboardKey.F12] = ImGuiKey.F12;
+            // RaylibKeyMap[KeyboardKey.LeftShift] = ImGuiKey.LeftShift;
+            // RaylibKeyMap[KeyboardKey.LeftControl] = ImGuiKey.LeftCtrl;
+            // RaylibKeyMap[KeyboardKey.LeftAlt] = ImGuiKey.LeftAlt;
+            // RaylibKeyMap[KeyboardKey.LeftSuper] = ImGuiKey.LeftSuper;
+            // RaylibKeyMap[KeyboardKey.RightShift] = ImGuiKey.RightShift;
+            // RaylibKeyMap[KeyboardKey.RightControl] = ImGuiKey.RightCtrl;
+            // RaylibKeyMap[KeyboardKey.RightAlt] = ImGuiKey.RightAlt;
+            // RaylibKeyMap[KeyboardKey.RightSuper] = ImGuiKey.RightSuper;
+            // RaylibKeyMap[KeyboardKey.KeyboardMenu] = ImGuiKey.Menu;
+            // RaylibKeyMap[KeyboardKey.LeftBracket] = ImGuiKey.LeftBracket;
+            // RaylibKeyMap[KeyboardKey.Backslash] = ImGuiKey.Backslash;
+            // RaylibKeyMap[KeyboardKey.RightBracket] = ImGuiKey.RightBracket;
+            // RaylibKeyMap[KeyboardKey.Grave] = ImGuiKey.GraveAccent;
+            // RaylibKeyMap[KeyboardKey.Kp0] = ImGuiKey.Keypad0;
+            // RaylibKeyMap[KeyboardKey.Kp1] = ImGuiKey.Keypad1;
+            // RaylibKeyMap[KeyboardKey.Kp2] = ImGuiKey.Keypad2;
+            // RaylibKeyMap[KeyboardKey.Kp3] = ImGuiKey.Keypad3;
+            // RaylibKeyMap[KeyboardKey.Kp4] = ImGuiKey.Keypad4;
+            // RaylibKeyMap[KeyboardKey.Kp5] = ImGuiKey.Keypad5;
+            // RaylibKeyMap[KeyboardKey.Kp6] = ImGuiKey.Keypad6;
+            // RaylibKeyMap[KeyboardKey.Kp7] = ImGuiKey.Keypad7;
+            // RaylibKeyMap[KeyboardKey.Kp8] = ImGuiKey.Keypad8;
+            // RaylibKeyMap[KeyboardKey.Kp9] = ImGuiKey.Keypad9;
+            // RaylibKeyMap[KeyboardKey.KpDecimal] = ImGuiKey.KeypadDecimal;
+            // RaylibKeyMap[KeyboardKey.KpDivide] = ImGuiKey.KeypadDivide;
+            // RaylibKeyMap[KeyboardKey.KpMultiply] = ImGuiKey.KeypadMultiply;
+            // RaylibKeyMap[KeyboardKey.KpSubtract] = ImGuiKey.KeypadSubtract;
+            // RaylibKeyMap[KeyboardKey.KpAdd] = ImGuiKey.KeypadAdd;
+            // RaylibKeyMap[KeyboardKey.KpEnter] = ImGuiKey.KeypadEnter;
+            // RaylibKeyMap[KeyboardKey.KpEqual] = ImGuiKey.KeypadEqual;
         }
 
         private static void SetupMouseCursors()
         {
             MouseCursorMap.Clear();
-            MouseCursorMap[ImGuiMouseCursor.Arrow] = MouseCursor.Arrow;
-            MouseCursorMap[ImGuiMouseCursor.TextInput] = MouseCursor.IBeam;
-            MouseCursorMap[ImGuiMouseCursor.Hand] = MouseCursor.PointingHand;
-            MouseCursorMap[ImGuiMouseCursor.ResizeAll] = MouseCursor.ResizeAll;
-            MouseCursorMap[ImGuiMouseCursor.ResizeEW] = MouseCursor.ResizeEw;
-            MouseCursorMap[ImGuiMouseCursor.ResizeNESW] = MouseCursor.ResizeNesw;
-            MouseCursorMap[ImGuiMouseCursor.ResizeNS] = MouseCursor.ResizeNs;
-            MouseCursorMap[ImGuiMouseCursor.ResizeNWSE] = MouseCursor.ResizeNwse;
-            MouseCursorMap[ImGuiMouseCursor.NotAllowed] = MouseCursor.NotAllowed;
+            MouseCursorMap[ImGuiMouseCursor.Arrow] = MouseCursor.MOUSE_CURSOR_ARROW;
+            MouseCursorMap[ImGuiMouseCursor.TextInput] = MouseCursor.MOUSE_CURSOR_IBEAM;
+            MouseCursorMap[ImGuiMouseCursor.Hand] = MouseCursor.MOUSE_CURSOR_POINTING_HAND;
+            MouseCursorMap[ImGuiMouseCursor.ResizeAll] = MouseCursor.MOUSE_CURSOR_RESIZE_ALL;
+            MouseCursorMap[ImGuiMouseCursor.ResizeEW] = MouseCursor.MOUSE_CURSOR_RESIZE_EW;
+            MouseCursorMap[ImGuiMouseCursor.ResizeNESW] = MouseCursor.MOUSE_CURSOR_RESIZE_NESW;
+            MouseCursorMap[ImGuiMouseCursor.ResizeNS] = MouseCursor.MOUSE_CURSOR_RESIZE_NS;
+            MouseCursorMap[ImGuiMouseCursor.ResizeNWSE] = MouseCursor.MOUSE_CURSOR_RESIZE_NWSE;
+            MouseCursorMap[ImGuiMouseCursor.NotAllowed] = MouseCursor.MOUSE_CURSOR_NOT_ALLOWED;
         }
 
         /// <summary>
@@ -229,21 +230,20 @@ namespace rlImGui_cs
             int width, height, bytesPerPixel;
             io.Fonts.GetTexDataAsRGBA32(out byte* pixels, out width, out height, out bytesPerPixel);
 
-            Raylib_cs.Image image = new Image
+            Image image = new Image
             {
-                Data = pixels,
-                Width = width,
-                Height = height,
-                Mipmaps = 1,
-                Format = PixelFormat.UncompressedR8G8B8A8,
+                data = pixels,
+                width = width,
+                height = height,
+                mipmaps = 1,
+                format = (int)PixelFormat.PIXELFORMAT_UNCOMPRESSED_R8G8B8A8,
             };
 
-            if (Raylib.IsTextureValid(FontTexture))
-                Raylib.UnloadTexture(FontTexture);
+            Raylib.UnloadTexture(FontTexture);
 
             FontTexture = Raylib.LoadTextureFromImage(image);
 
-            io.Fonts.SetTexID(new IntPtr(FontTexture.Id));
+            io.Fonts.SetTexID(new IntPtr(FontTexture.id));
         }
 
         unsafe internal static sbyte* rImGuiGetClipText(IntPtr userData)
@@ -321,16 +321,16 @@ namespace rlImGui_cs
             io.MousePos.Y = 0;
 
             // copy/paste callbacks
-            unsafe
-            {
-                SetClipCallback = new SetClipTextCallback(rlImGuiSetClipText);
-                io.SetClipboardTextFn = Marshal.GetFunctionPointerForDelegate(SetClipCallback);
+            // unsafe
+            // {
+            //     SetClipCallback = new SetClipTextCallback(rlImGuiSetClipText);
+            //     io.SetClipboardTextFn = Marshal.GetFunctionPointerForDelegate(SetClipCallback);
+            //
+            //     GetClipCallback = new GetClipTextCallback(rImGuiGetClipText);
+            //     io.GetClipboardTextFn = Marshal.GetFunctionPointerForDelegate(GetClipCallback);
+            // }
 
-                GetClipCallback = new GetClipTextCallback(rImGuiGetClipText);
-                io.GetClipboardTextFn = Marshal.GetFunctionPointerForDelegate(GetClipCallback);
-            }
-
-            io.ClipboardUserData = IntPtr.Zero;
+            // io.ClipboardUserData = IntPtr.Zero;
             ReloadFonts();
         }
 
@@ -358,9 +358,6 @@ namespace rlImGui_cs
 
             io.DisplayFramebufferScale = new Vector2(1, 1);
 
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || Raylib.IsWindowState(ConfigFlags.HighDpiWindow))
-                    io.DisplayFramebufferScale = Raylib.GetWindowScaleDPI();
-
             io.DeltaTime = dt >= 0 ? dt : Raylib.GetFrameTime();
 
             if (io.WantSetMousePos)
@@ -372,11 +369,11 @@ namespace rlImGui_cs
                 io.AddMousePosEvent(Raylib.GetMouseX(), Raylib.GetMouseY());
             }
 
-            SetMouseEvent(io, MouseButton.Left, ImGuiMouseButton.Left);
-            SetMouseEvent(io, MouseButton.Right, ImGuiMouseButton.Right);
-            SetMouseEvent(io, MouseButton.Middle, ImGuiMouseButton.Middle);
-            SetMouseEvent(io, MouseButton.Forward, ImGuiMouseButton.Middle + 1);
-            SetMouseEvent(io, MouseButton.Back, ImGuiMouseButton.Middle + 2);
+            SetMouseEvent(io, MouseButton.MOUSE_BUTTON_LEFT, ImGuiMouseButton.Left);
+            SetMouseEvent(io, MouseButton.MOUSE_BUTTON_RIGHT, ImGuiMouseButton.Right);
+            SetMouseEvent(io, MouseButton.MOUSE_BUTTON_MIDDLE, ImGuiMouseButton.Middle);
+            SetMouseEvent(io, MouseButton.MOUSE_BUTTON_FORWARD, ImGuiMouseButton.Middle + 1);
+            SetMouseEvent(io, MouseButton.MOUSE_BUTTON_BACK, ImGuiMouseButton.Middle + 2);
 
             var wheelMove = Raylib.GetMouseWheelMoveV();
             io.AddMouseWheelEvent(wheelMove.X, wheelMove.Y);
@@ -399,7 +396,7 @@ namespace rlImGui_cs
                         {
 
                             if (!MouseCursorMap.ContainsKey(imgui_cursor))
-                                Raylib.SetMouseCursor(MouseCursor.Default);
+                                Raylib.SetMouseCursor(MouseCursor.MOUSE_CURSOR_DEFAULT);
                             else
                                 Raylib.SetMouseCursor(MouseCursorMap[imgui_cursor]);
                         }
@@ -464,37 +461,38 @@ namespace rlImGui_cs
                 pressed = Raylib.GetCharPressed();
             }
 
+            // TODO Gamepads
             // gamepads
-            if ((io.ConfigFlags & ImGuiConfigFlags.NavEnableGamepad) != 0 && Raylib.IsGamepadAvailable(0))
-            {
-                HandleGamepadButtonEvent(io, GamepadButton.LeftFaceUp, ImGuiKey.GamepadDpadUp);
-                HandleGamepadButtonEvent(io, GamepadButton.LeftFaceRight, ImGuiKey.GamepadDpadRight);
-                HandleGamepadButtonEvent(io, GamepadButton.LeftFaceDown, ImGuiKey.GamepadDpadDown);
-                HandleGamepadButtonEvent(io, GamepadButton.LeftFaceLeft, ImGuiKey.GamepadDpadLeft);
-
-                HandleGamepadButtonEvent(io, GamepadButton.RightFaceUp, ImGuiKey.GamepadFaceUp);
-                HandleGamepadButtonEvent(io, GamepadButton.RightFaceRight, ImGuiKey.GamepadFaceLeft);
-                HandleGamepadButtonEvent(io, GamepadButton.RightFaceDown, ImGuiKey.GamepadFaceDown);
-                HandleGamepadButtonEvent(io, GamepadButton.RightFaceLeft, ImGuiKey.GamepadFaceRight);
-
-                HandleGamepadButtonEvent(io, GamepadButton.LeftTrigger1, ImGuiKey.GamepadL1);
-                HandleGamepadButtonEvent(io, GamepadButton.LeftTrigger2, ImGuiKey.GamepadL2);
-                HandleGamepadButtonEvent(io, GamepadButton.RightTrigger1, ImGuiKey.GamepadR1);
-                HandleGamepadButtonEvent(io, GamepadButton.RightTrigger2, ImGuiKey.GamepadR2);
-                HandleGamepadButtonEvent(io, GamepadButton.LeftThumb, ImGuiKey.GamepadL3);
-                HandleGamepadButtonEvent(io, GamepadButton.RightThumb, ImGuiKey.GamepadR3);
-
-                HandleGamepadButtonEvent(io, GamepadButton.MiddleLeft, ImGuiKey.GamepadStart);
-                HandleGamepadButtonEvent(io, GamepadButton.MiddleRight, ImGuiKey.GamepadBack);
-
-                // left stick
-                HandleGamepadStickEvent(io, GamepadAxis.LeftX, ImGuiKey.GamepadLStickLeft, ImGuiKey.GamepadLStickRight);
-                HandleGamepadStickEvent(io, GamepadAxis.LeftY, ImGuiKey.GamepadLStickUp, ImGuiKey.GamepadLStickDown);
-
-                // right stick
-                HandleGamepadStickEvent(io, GamepadAxis.RightX, ImGuiKey.GamepadRStickLeft, ImGuiKey.GamepadRStickRight);
-                HandleGamepadStickEvent(io, GamepadAxis.RightY, ImGuiKey.GamepadRStickUp, ImGuiKey.GamepadRStickDown);
-            }
+            // if ((io.ConfigFlags & ImGuiConfigFlags.NavEnableGamepad) != 0 && Raylib.IsGamepadAvailable(0))
+            // {
+            //     HandleGamepadButtonEvent(io, GamepadButton.LeftFaceUp, ImGuiKey.GamepadDpadUp);
+            //     HandleGamepadButtonEvent(io, GamepadButton.LeftFaceRight, ImGuiKey.GamepadDpadRight);
+            //     HandleGamepadButtonEvent(io, GamepadButton.LeftFaceDown, ImGuiKey.GamepadDpadDown);
+            //     HandleGamepadButtonEvent(io, GamepadButton.LeftFaceLeft, ImGuiKey.GamepadDpadLeft);
+            //
+            //     HandleGamepadButtonEvent(io, GamepadButton.RightFaceUp, ImGuiKey.GamepadFaceUp);
+            //     HandleGamepadButtonEvent(io, GamepadButton.RightFaceRight, ImGuiKey.GamepadFaceLeft);
+            //     HandleGamepadButtonEvent(io, GamepadButton.RightFaceDown, ImGuiKey.GamepadFaceDown);
+            //     HandleGamepadButtonEvent(io, GamepadButton.RightFaceLeft, ImGuiKey.GamepadFaceRight);
+            //
+            //     HandleGamepadButtonEvent(io, GamepadButton.LeftTrigger1, ImGuiKey.GamepadL1);
+            //     HandleGamepadButtonEvent(io, GamepadButton.LeftTrigger2, ImGuiKey.GamepadL2);
+            //     HandleGamepadButtonEvent(io, GamepadButton.RightTrigger1, ImGuiKey.GamepadR1);
+            //     HandleGamepadButtonEvent(io, GamepadButton.RightTrigger2, ImGuiKey.GamepadR2);
+            //     HandleGamepadButtonEvent(io, GamepadButton.LeftThumb, ImGuiKey.GamepadL3);
+            //     HandleGamepadButtonEvent(io, GamepadButton.RightThumb, ImGuiKey.GamepadR3);
+            //
+            //     HandleGamepadButtonEvent(io, GamepadButton.MiddleLeft, ImGuiKey.GamepadStart);
+            //     HandleGamepadButtonEvent(io, GamepadButton.MiddleRight, ImGuiKey.GamepadBack);
+            //
+            //     // left stick
+            //     HandleGamepadStickEvent(io, GamepadAxis.LeftX, ImGuiKey.GamepadLStickLeft, ImGuiKey.GamepadLStickRight);
+            //     HandleGamepadStickEvent(io, GamepadAxis.LeftY, ImGuiKey.GamepadLStickUp, ImGuiKey.GamepadLStickDown);
+            //
+            //     // right stick
+            //     HandleGamepadStickEvent(io, GamepadAxis.RightX, ImGuiKey.GamepadRStickLeft, ImGuiKey.GamepadRStickRight);
+            //     HandleGamepadStickEvent(io, GamepadAxis.RightY, ImGuiKey.GamepadRStickUp, ImGuiKey.GamepadRStickDown);
+            // }
         }
 
 
@@ -531,14 +529,14 @@ namespace rlImGui_cs
 
         private static void EnableScissor(float x, float y, float width, float height)
         {
-            Rlgl.EnableScissorTest();
+            RlGl.rlEnableScissorTest();
             ImGuiIOPtr io = ImGui.GetIO();
 
             Vector2 scale = new Vector2(1.0f, 1.0f);
-            if (Raylib.IsWindowState(ConfigFlags.HighDpiWindow) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            if (Raylib.IsWindowState(ConfigFlags.FLAG_WINDOW_HIGHDPI) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                 scale = io.DisplayFramebufferScale;
 
-            Rlgl.Scissor(   (int)(x * scale.X),
+            RlGl.rlScissor(   (int)(x * scale.X),
                             (int)((io.DisplaySize.Y - (int)(y + height)) * scale.Y),
                             (int)(width * scale.X),
                             (int)(height * scale.Y));
@@ -548,9 +546,9 @@ namespace rlImGui_cs
         {
             Vector4 color = ImGui.ColorConvertU32ToFloat4(idx_vert.col);
 
-            Rlgl.Color4f(color.X, color.Y, color.Z, color.W);
-            Rlgl.TexCoord2f(idx_vert.uv.X, idx_vert.uv.Y);
-            Rlgl.Vertex2f(idx_vert.pos.X, idx_vert.pos.Y);
+            RlGl.rlColor4f(color.X, color.Y, color.Z, color.W);
+            RlGl.rlTexCoord2f(idx_vert.uv.X, idx_vert.uv.Y);
+            RlGl.rlVertex2f(idx_vert.pos.X, idx_vert.pos.Y);
         }
 
         private static void RenderTriangles(uint count, uint indexStart, ImVector<ushort> indexBuffer, ImPtrVector<ImDrawVertPtr> vertBuffer, IntPtr texturePtr)
@@ -562,15 +560,15 @@ namespace rlImGui_cs
             if (texturePtr != IntPtr.Zero)
                 textureId = (uint)texturePtr.ToInt32();
 
-            Rlgl.Begin(DrawMode.Triangles);
-            Rlgl.SetTexture(textureId);
+            RlGl.rlBegin(RlGl.RL_TRIANGLES);
+            RlGl.rlSetTexture(textureId);
 
             for (int i = 0; i <= (count - 3); i += 3)
             {
-                if (Rlgl.CheckRenderBatchLimit(3))
+                if (RlGl.rlCheckRenderBatchLimit(3))
                 {
-                    Rlgl.Begin(DrawMode.Triangles);
-                    Rlgl.SetTexture(textureId);
+                    RlGl.rlBegin(RlGl.RL_TRIANGLES);
+                    RlGl.rlSetTexture(textureId);
                 }
 
                 ushort indexA = indexBuffer[(int)indexStart + i];
@@ -585,15 +583,15 @@ namespace rlImGui_cs
                 TriangleVert(vertexB);
                 TriangleVert(vertexC);
             }
-            Rlgl.End();
+            RlGl.rlEnd();
         }
 
         private delegate void Callback(ImDrawListPtr list, ImDrawCmdPtr cmd);
 
         private static void RenderData()
         {
-            Rlgl.DrawRenderBatchActive();
-            Rlgl.DisableBackfaceCulling();
+            RlGl.rlDrawRenderBatchActive();
+            RlGl.rlDisableBackfaceCulling();
 
             var data = ImGui.GetDrawData();
 
@@ -615,12 +613,12 @@ namespace rlImGui_cs
 
                     RenderTriangles(cmd.ElemCount, cmd.IdxOffset, commandList.IdxBuffer, commandList.VtxBuffer, cmd.TextureId);
 
-                    Rlgl.DrawRenderBatchActive();
+                    RlGl.rlDrawRenderBatchActive();
                 }
             }
-            Rlgl.SetTexture(0);
-            Rlgl.DisableScissorTest();
-            Rlgl.EnableBackfaceCulling();
+            RlGl.rlSetTexture(0);
+            RlGl.rlDisableScissorTest();
+            RlGl.rlEnableBackfaceCulling();
         }
 
         /// <summary>
@@ -655,9 +653,9 @@ namespace rlImGui_cs
         /// Uses the current ImGui Cursor position and the full texture size.
         /// </summary>
         /// <param name="image">The raylib texture to draw</param>
-        public static void Image(Texture2D image)
+        public static void Image(Texture image)
         {
-            ImGui.Image(new IntPtr(image.Id), new Vector2(image.Width, image.Height));
+            ImGui.Image(new IntPtr(image.id), new Vector2(image.width, image.height));
         }
 
         /// <summary>
@@ -668,9 +666,9 @@ namespace rlImGui_cs
         /// <param name="image">The raylib texture to draw</param>
         /// <param name="width">The width of the drawn image</param>
         /// <param name="height">The height of the drawn image</param>
-        public static void ImageSize(Texture2D image, int width, int height)
+        public static void ImageSize(Texture image, int width, int height)
         {
-            ImGui.Image(new IntPtr(image.Id), new Vector2(width, height));
+            ImGui.Image(new IntPtr(image.id), new Vector2(width, height));
         }
 
         /// <summary>
@@ -680,9 +678,9 @@ namespace rlImGui_cs
         /// </summary>
         /// <param name="image">The raylib texture to draw</param>
         /// <param name="size">The size of drawn image</param>
-        public static void ImageSize(Texture2D image, Vector2 size)
+        public static void ImageSize(Texture image, Vector2 size)
         {
-            ImGui.Image(new IntPtr(image.Id), size);
+            ImGui.Image(new IntPtr(image.id), size);
         }
 
         /// <summary>
@@ -694,43 +692,43 @@ namespace rlImGui_cs
         /// <param name="destWidth">The width of the drawn image</param>
         /// <param name="destHeight">The height of the drawn image</param>
         /// <param name="sourceRect">The portion of the texture to draw as an image. Negative values for the width and height will flip the image</param>
-        public static void ImageRect(Texture2D image, int destWidth, int destHeight, Rectangle sourceRect)
+        public static void ImageRect(Texture image, int destWidth, int destHeight, Rectangle sourceRect)
         {
             Vector2 uv0 = new Vector2();
             Vector2 uv1 = new Vector2();
 
-            if (sourceRect.Width < 0)
+            if (sourceRect.width < 0)
             {
-                uv0.X = -((float)sourceRect.X / image.Width);
-                uv1.X = (uv0.X - (float)(Math.Abs(sourceRect.Width) / image.Width));
+                uv0.X = -((float)sourceRect.X / image.width);
+                uv1.X = (uv0.X - (float)(Math.Abs(sourceRect.width) / image.width));
             }
             else
             {
-                uv0.X = (float)sourceRect.X / image.Width;
-                uv1.X = uv0.X + (float)(sourceRect.Width / image.Width);
+                uv0.X = (float)sourceRect.X / image.width;
+                uv1.X = uv0.X + (float)(sourceRect.width / image.width);
             }
 
-            if (sourceRect.Height < 0)
+            if (sourceRect.height < 0)
             {
-                uv0.Y = -((float)sourceRect.Y / image.Height);
-                uv1.Y = (uv0.Y - (float)(Math.Abs(sourceRect.Height) / image.Height));
+                uv0.Y = -((float)sourceRect.Y / image.height);
+                uv1.Y = (uv0.Y - (float)(Math.Abs(sourceRect.height) / image.height));
             }
             else
             {
-                uv0.Y = (float)sourceRect.Y / image.Height;
-                uv1.Y = uv0.Y + (float)(sourceRect.Height / image.Height);
+                uv0.Y = (float)sourceRect.Y / image.height;
+                uv1.Y = uv0.Y + (float)(sourceRect.height / image.height);
             }
 
-            ImGui.Image(new IntPtr(image.Id), new Vector2(destWidth, destHeight), uv0, uv1);
+            ImGui.Image(new IntPtr(image.id), new Vector2(destWidth, destHeight), uv0, uv1);
         }
 
         /// <summary>
         /// Draws a render texture as an image an ImGui Context, automatically flipping the Y axis so it will show correctly on screen
         /// </summary>
         /// <param name="image">The render texture to draw</param>
-        public static void ImageRenderTexture(RenderTexture2D image)
+        public static void ImageRenderTexture(RenderTexture image)
         {
-            ImageRect(image.Texture, image.Texture.Width, image.Texture.Height, new Rectangle(0, 0, image.Texture.Width, -image.Texture.Height));
+            ImageRect(image.texture, image.texture.width, image.texture.height, new Rectangle(0, 0, image.texture.width, -image.texture.height));
         }
 
         /// <summary>
@@ -739,20 +737,20 @@ namespace rlImGui_cs
         /// </summary>
         /// <param name="image">The render texture to draw</param>
         /// <param name="center">When true the texture will be centered in the content area. When false the image will be left and top justified</param>
-        public static void ImageRenderTextureFit(RenderTexture2D image, bool center = true)
+        public static void ImageRenderTextureFit(RenderTexture image, bool center = true)
         {
             Vector2 area = ImGui.GetContentRegionAvail();
 
-            float scale = area.X / image.Texture.Width;
+            float scale = area.X / image.texture.width;
 
-            float y = image.Texture.Height * scale;
+            float y = image.texture.height * scale;
             if (y > area.Y)
             {
-                scale = area.Y / image.Texture.Height;
+                scale = area.Y / image.texture.height;
             }
 
-            int sizeX = (int)(image.Texture.Width * scale);
-            int sizeY = (int)(image.Texture.Height * scale);
+            int sizeX = (int)(image.texture.width * scale);
+            int sizeY = (int)(image.texture.height * scale);
 
             if (center)
             {
@@ -761,7 +759,7 @@ namespace rlImGui_cs
                 ImGui.SetCursorPosY(ImGui.GetCursorPosY() + (area.Y / 2 - sizeY / 2));
             }
 
-            ImageRect(image.Texture, sizeX, sizeY, new Rectangle(0,0, (image.Texture.Width), -(image.Texture.Height) ));
+            ImageRect(image.texture, sizeX, sizeY, new Rectangle(0,0, (image.texture.width), -(image.texture.height) ));
         }
 
         /// <summary>
@@ -770,9 +768,9 @@ namespace rlImGui_cs
         /// <param name="name">The display name and ImGui ID for the button</param>
         /// <param name="image">The texture to draw</param>
         /// <returns>True if the button was clicked</returns>
-        public static bool ImageButton(System.String name, Texture2D image)
+        public static bool ImageButton(System.String name, Texture image)
         {
-            return ImageButtonSize(name, image, new Vector2(image.Width, image.Height));
+            return ImageButtonSize(name, image, new Vector2(image.width, image.height));
         }
 
         /// <summary>
@@ -782,9 +780,9 @@ namespace rlImGui_cs
         /// <param name="image">The texture to draw</param>
         /// <param name="size">The size of the button/param>
         /// <returns>True if the button was clicked</returns>
-        public static bool ImageButtonSize(System.String name, Texture2D image, Vector2 size)
+        public static bool ImageButtonSize(System.String name, Texture image, Vector2 size)
         {
-            return ImGui.ImageButton(name, new IntPtr(image.Id), size);
+            return ImGui.ImageButton(name, new IntPtr(image.id), size);
         }
 
     }

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <RootNamespace>rlImGui_cs</RootNamespace>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -37,11 +37,14 @@
 
   <ItemGroup>
     <PackageReference Include="ImGui.NET" Version="1.91.0.1" />
-    <PackageReference Include="Raylib-cs" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Raylib-CsLo\Raylib-CsLo\Raylib-CsLo.csproj" />
   </ItemGroup>
 
 </Project>
